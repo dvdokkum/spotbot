@@ -19,24 +19,30 @@ redirect_url = auth_keys.SPOTIPY_REDIRECT_URL
 username = auth_keys.SPOTIFY_USERNAME
 token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_url)
 
-#todo: detect and escape characters in track/artist responses that break the string
+"""
+todo: 
+
+- detect and escape characters in track/artist responses that break the string (')
+- only update slack status if the track has changed
+- add proper error handling
+"""
 def main():
 	while True:
 		if token:
 		    sp = spotipy.Spotify(auth=token)
 		    results = sp.currently_playing()
 		    is_playing = results['is_playing']
-		    print is_playing
+		    #print is_playing
 		    if is_playing == True:
 		    	track_name = results['item']['name']
 		    	artist_name = results['item']['artists'][0]['name']
 		    	status_text = "Now Playing: " + track_name + " by " + artist_name
-		    	print status_text
+		    	#print status_text
 		    	json_string = "{'status_text':'"+status_text+"','status_emoji':'"+status_emoji+"'}"
 		    	slack_client.api_call("users.profile.set", profile = json_string)
 		    	time.sleep(20)
 		    else: 
-		    	print "Nothing Playing..."
+		    	#print "Nothing Playing..."
 		    	time.sleep(20)
 		else:
 		    print "Can't get token for", username

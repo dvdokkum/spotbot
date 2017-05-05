@@ -1,4 +1,4 @@
-auth_keys.py
+auth_keys.py*
 .cache*
 
 #virtualenv
