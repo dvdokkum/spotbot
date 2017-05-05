@@ -1,0 +1,5 @@
+auth_keys.py
+.cache*
+
+#virtualenv
+spotbot/
